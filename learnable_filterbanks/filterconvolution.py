@@ -1,8 +1,3 @@
-# Helena Peic Tukuljac and Benjamin Ricaud, 2019
-# In this file we define our new layer.
-# The layer takes sound in time domain as input.
-# The output is processed sound by the learned filter bank.
-
 from tensorflow.keras import activations, initializers, regularizers, constraints
 import tensorflow as tf
 import learnable_filterbanks.kernels as kernels
@@ -11,7 +6,9 @@ import numpy as np
 logger = tf.get_logger()
 
 class Pos(constraints.Constraint):
-    #Constrain the weights to be strictly positive (add epsilon), so they don't collapse to zero
+    """Constrain the weights to be strictly positive (add epsilon), so they don't collapse to zero
+    """
+    #
     def __call__(self, p):
         p1 = tf.math.abs(p)
         epsilon = tf.keras.backend.epsilon()
@@ -19,7 +16,10 @@ class Pos(constraints.Constraint):
         return p2
 
 class Pos_and_f_ordered(constraints.Constraint):
-    #Constrain the weights to be strictly positive (add epsilon), so they don't collapse to zero
+    """Constrain the weights to be strictly positive (add epsilon), so they don't collapse to zero and
+        force frequencies to be increasing.
+    """
+    #C
     def __call__(self, p):
         # positivity
         p1 = tf.math.abs(p)
