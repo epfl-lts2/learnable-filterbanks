@@ -57,7 +57,8 @@ def audiomnist_audionet(num_classes=10):
     return model
 
 @gin.configurable
-def audiomnist_fb_audionet(fs, input_len, overlap=75, num_filters=64, filter_type=5, num_classes=10):
+def audiomnist_fb_audionet(fs, input_len, overlap=75, num_filters=64, filter_type=5, num_classes=10, 
+                           data_format='channels_first'):
     """AudioNet model with LF input layer for AudioMNIST digit classification
 
     Args:
@@ -67,23 +68,29 @@ def audiomnist_fb_audionet(fs, input_len, overlap=75, num_filters=64, filter_typ
         num_filters (int, optional): Number of filters in LF layer. Defaults to 64.
         filter_type (int, optional): Filter id. Defaults to 5 (i.e. Gammatone fixed order 4).
         num_classes (int, optional): Number of classes. Defaults to 10.
+        data_format (str, optional): Must be 'channels_first' or 'channels_last'
 
     Returns:
         Model: AudioNet with LF input layer
     """
+    if data_format not in ['channels_first', 'channels_last']:
+        raise ValueError('Unknown data format: ', data_format)
+    if data_format == 'channels_first':
+        input_shape = (1, input_len)
+    else:
+        input_shape = (input_len, 1)
     filter_length = int(fs/100)
     fb_stride = int((100 - overlap)*filter_length/100)
-    raw_input = Input(shape=(1,input_len))
    
-
+    raw_input = Input(shape=input_shape)
+   
     filters = kernels.create_filter_layer(filter_type, fs, filter_length)
     
-    raw_input = Input(shape=(input_len, 1))
     x = filterconvolution.FilterConvolution(filter_number=num_filters, filter_type=filters,
-                                            padding='same', data_format='channels_last', 
+                                            padding='same', data_format=data_format, 
                                             activation='relu', strides = fb_stride)(raw_input)
     if filters.COSINE_AND_SINE_FILTER:
-        x = filterconvolution.Modulus(data_format='channels_last', logscale=True)(x)
+        x = filterconvolution.Modulus(data_format=data_format, logscale=True)(x)
     
     x = Conv1D(64, 3, padding='same', activation='relu', data_format='channels_last')(x)
     x = MaxPooling1D(2, strides=2)(x)
@@ -103,12 +110,12 @@ def audiomnist_fb_audionet(fs, input_len, overlap=75, num_filters=64, filter_typ
 
     out = Dense(num_classes, activation='softmax')(x)
     model = Model(inputs=[raw_input], outputs=[out])
-    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'], run_eagerly=False)
+    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
     return model
 
 # smaller network, non-audionet based
 @gin.configurable
-def audiomnist_fb_custom(fs, input_len, num_filters=32, overlap=75, filter_type=5):
+def audiomnist_fb_custom(fs, input_len, num_filters=32, overlap=75, filter_type=5, data_format='channels_first'):
     """SampleCNN-based model with LF layer for AudioMNIST classification
 
     Args:
@@ -118,20 +125,28 @@ def audiomnist_fb_custom(fs, input_len, num_filters=32, overlap=75, filter_type=
         num_filters (int, optional): Number of filters in LF layer. Defaults to 64.
         filter_type (int, optional): Filter id. Defaults to 5 (i.e. Gammatone fixed order 4).
         num_classes (int, optional): Number of classes. Defaults to 10.
+        data_format (str, optional): Must be 'channels_first' or 'channels_last'
 
     Returns:
         Model: SampleCNN with LF input layer
     """
+
+    if data_format not in ['channels_first', 'channels_last']:
+        raise ValueError('Unknown data format: ', data_format)
+
     filter_length = int(fs/100) # 10ms
     fb_stride = int((100 - overlap)*filter_length/100)
     filters = kernels.create_filter_layer(filter_type, fs, filter_length)
-    
-    raw_input = Input(shape=(1,input_len))
+    if data_format == 'channels_first':
+        input_shape = (1, input_len)
+    else:
+        input_shape = (input_len, 1)
+    raw_input = Input(shape=input_shape)
     x = filterconvolution.FilterConvolution(filter_number=num_filters, filter_type=filters, padding='same',
-                                            data_format='channels_first', activation='relu', 
+                                            data_format=data_format, activation='relu', 
                                             strides = fb_stride)(raw_input)
     if filters.COSINE_AND_SINE_FILTER:
-        x = filterconvolution.Modulus(data_format='channels_first', logscale=True)(x)
+        x = filterconvolution.Modulus(data_format=data_format, logscale=True)(x)
     
     x = Conv1D(32, 32, strides=2, padding='same', activation='relu', data_format='channels_last')(x)
     x = MaxPooling1D(4, strides=4)(x)

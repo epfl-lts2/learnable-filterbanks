@@ -81,6 +81,7 @@ class FilterConvolution(tf.keras.layers.Layer):
 
     def build(self, input_shape):
         # get dimension and length of input
+        logger.debug('FilterConvolution build with data_format=%s', self.data_format)
         if self.data_format == 'channels_first':
             self.input_dim = input_shape[1]
             self.input_length = input_shape[2]
@@ -133,7 +134,7 @@ class FilterConvolution(tf.keras.layers.Layer):
                      
         """
         if self.input_dim > 1:
-            raise ValueError('This layer accept only mono audio signals.')
+            raise ValueError('This layer accept only mono audio signals. Got dimension=', self.input_dim)
 
         # shape of x is (batches, input_dim, input_len) if 'channels_first'
         # shape of x is (batches, input_len, input_dim) if 'channels_last'
