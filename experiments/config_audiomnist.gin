@@ -1,0 +1,27 @@
+# Configuration for AudioMNIST
+
+# select the model you want to train and comment out the others
+# train_test_split.model = @models.audiomnist_audionet()
+# train_test_split.mode = @models.audiomnist_fb_custom()
+train_test_split.model = @models.audiomnist_fb_audionet()
+train_test_split.num_epochs = 50
+train_test_split.batch_size = 128
+load_split.reshape_data = True # needed for learnable filterbanks layer, set to False for AudioNet
+load_split.data_format = "channels_first" # also change in model parameters if this changes
+
+
+# model parameters for LF-AudioNet
+models.audiomnist_fb_audionet.fs = 8000 # dataset is sampled at 8kHz
+models.audiomnist_fb_audionet.input_len = 8000 # each sample is 1s long
+models.audiomnist_fb_audionet.num_filters = 32
+models.audiomnist_fb_audionet.overlap = 75
+models.audiomnist_fb_audionet.filter_type = 5 # Gammatone fixed order 4
+models.audiomnist_fb_audionet.data_format = "channels_first" 
+
+# model parameters for LF-Custom
+models.audiomnist_fb_custom.fs = 8000
+models.audiomnist_fb_custom.input_len = 8000
+models.audiomnist_fb_custom.num_filters = 32
+models.audiomnist_fb_custom.overlap = 75
+models.audiomnist_fb_custom.filter_type = 5
+models.audiomnist_fb_custom.data_format = "channels_first"
