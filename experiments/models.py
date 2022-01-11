@@ -195,7 +195,7 @@ def ConvNet(blk_filters, input_len, fs, overlap=75, num_filters=32, filter_lengt
         filter_type (int, optional): Filter type id for LF layer. Defaults to 5 (Gammatone fixed order 4).
 
     Returns:
-        [type]: [description]
+        Model: ConvNet model
     """
     if not filter_length:
         filter_length=int(fs/100) #10ms
