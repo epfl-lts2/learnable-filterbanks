@@ -1,0 +1,9 @@
+numpy
+tensorflow>=2.4.1
+tensorflow-gpu
+tensorflow-datasets
+gin-config
+tqdm
+scipy
+librosa
+h5py

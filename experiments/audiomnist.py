@@ -6,7 +6,7 @@ import json
 import numpy as np
 import experiments.models
 import tensorflow as tf
-from keras.utils import to_categorical
+from tensorflow.keras.utils import to_categorical
 
 
 

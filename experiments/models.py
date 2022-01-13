@@ -215,7 +215,7 @@ def ConvNet(blk_filters, input_len, fs, overlap=75, num_filters=32, filter_lengt
     if not filter_length:
         filter_length=int(fs/100) #10ms
     fb_stride = int((100 - overlap)*filter_length/100)
-    num_features = num_filters
+    
     filters = kernels.create_filter_layer(filter_type, fs, filter_length)
     
     # Variable-length input for feature visualization.
