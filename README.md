@@ -2,6 +2,12 @@ This repository contains the code to reproduce the experiments from the paper "L
 
 This code has been written by Benjamin Ricaud[^1][^2], Helena Peic Tukuljac[^2], Nicolas Aspert[^2] and Laurent Colbois[^3].
 
+# Installation
+Create a virtual python environment (or conda) and install the requirements via `pip` (or `conda`):
+```
+pip install -r requirements.txt
+```
+
 # Experiments
 
 There are two datasets used: [AudioMNIST](https://github.com/soerenab/AudioMNIST) and [Google Speech Commands](https://www.tensorflow.org/datasets/catalog/speech_commands)
@@ -16,7 +22,11 @@ python -m experiments.audiomnist  --config experiments/config_audiomnist.gin --s
 ```
 
 ## Google Speech commands
-Coming soon...
+* Adjust the `experiments/config_googlespeech.gin` to your needs
+* Train a ConvNet model:
+```
+python -m experiments.google_speech --config experiments/config_googlespeech.gin --result-output result_gsc.json --model-output gsc.h5
+```
 
 ---------
 [^1]: Ecole Polytechnique Fédérale de Lausanne [LTS2](https://lts2.epfl.ch)

@@ -1,0 +1,9 @@
+train.data_dir = "/data/tf_datasets" # set to your local folder where TF datasets are stored
+train.num_epochs = 50
+train.batch_size = 128
+train.num_filters = 40
+train.overlap = 80 
+train.filter_length = 400
+train.filter_type = 4
+checkpoint_filepath = "/data/models/gsc" # if not set, best model will not be reloaded before evaluation
+train.filters = [64, 128, 256, 256, 512, 512]
