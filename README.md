@@ -2,7 +2,7 @@ This repository contains the code to reproduce the experiments from the [paper](
 
 This code has been written by Benjamin Ricaud[^1][^2], Helena Peic Tukuljac[^2], Nicolas Aspert[^2] and Laurent Colbois[^3]. If you use it, please cite the paper accordingly:
 ```
-@inproceedings{PeicTukuljac:293274,
+@inproceedings{learnablefb,
       title = {Learnable filter-banks for CNN-based audio applications},
       author = {Peic Tukuljac, Helena and Ricaud, Benjamin and Aspert,  Nicolas and Colbois, Laurent},
       journal = {Proceedings of the Northern Lights Deep Learning Workshop  2022 },
