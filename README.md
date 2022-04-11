@@ -1,6 +1,19 @@
-This repository contains the code to reproduce the experiments from the paper "Learnable filter-banks for CNN-based audio applications" published at [NLDL'2022](https://www.nldl.org)
+This repository contains the code to reproduce the experiments from the [paper](https://septentrio.uit.no/index.php/nldl/article/view/6279) "Learnable filter-banks for CNN-based audio applications" published at [NLDL'2022](https://www.nldl.org)
 
-This code has been written by Benjamin Ricaud[^1][^2], Helena Peic Tukuljac[^2], Nicolas Aspert[^2] and Laurent Colbois[^3].
+This code has been written by Benjamin Ricaud[^1][^2], Helena Peic Tukuljac[^2], Nicolas Aspert[^2] and Laurent Colbois[^3]. If you use it, please cite the paper accordingly:
+```
+@inproceedings{PeicTukuljac:293274,
+      title = {Learnable filter-banks for CNN-based audio applications},
+      author = {Peic Tukuljac, Helena and Ricaud, Benjamin and Aspert,  Nicolas and Colbois, Laurent},
+      journal = {Proceedings of the Northern Lights Deep Learning Workshop  2022 },
+      series = {Proceedings of the Northern Lights Deep Learning Workshop.  3},
+      pages = {9},
+      year = {2022},
+      abstract = {We investigate the design of a convolutional layer where  kernels are parameterized functions. This layer aims at  being the input layer of convolutional neural networks for  audio applications or applications involving time-series.  The kernels are defined as one-dimensional functions having  a band-pass filter shape, with a limited number of  trainable parameters. Building on the literature on this  topic, we confirm that networks having such an input layer  can achieve state-of-the-art accuracy on several audio  classification tasks. We explore the effect of different  parameters on the network accuracy and learning ability.  This approach reduces the number of weights to be trained  and enables larger kernel sizes, an advantage for audio  applications. Furthermore, the learned filters bring  additional interpretability and a better understanding of  the audio properties exploited by the network.},
+      url = {https://septentrio.uit.no/index.php/nldl/article/view/6279},
+      doi = {10.7557/18.6279},
+}
+```
 
 # Installation
 Create a virtual python environment (or conda) and install the requirements via `pip` (or `conda`):
