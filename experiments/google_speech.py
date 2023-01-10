@@ -73,7 +73,7 @@ def train(data_dir=None, batch_size=128, num_epochs=50, num_filters=40, overlap=
     model = models.ConvNet(filters, 16000, 16000, num_filters=num_filters, overlap=overlap, 
                             filter_length=filter_length, num_classes=12, filter_type=filter_type)
     model.summary()
-    history = model.fit(data_prep['train'], validation_data=data_prep['eval'], epochs=num_epochs, 
+    history = model.fit(data_prep['train'], validation_data=data_prep['eval'], epochs=num_epochs,
                         callbacks=callbacks, verbose=1)
     # reload best weight
     if checkpoint_filepath:
@@ -89,6 +89,8 @@ def main():
     args = parser.parse_args()
     gin.parse_config_file(args.config)
     model, history, res = train()
+    if "lr" in history.history.keys():
+        history.history["lr"] = [float(r) for r in history.history["lr"]]
     if args.result_output:
         with open(args.result_output, 'w') as f:
             json.dump({'history': history.history, 'result': res}, f)
